@@ -1,0 +1,64 @@
+﻿@model Idea1.Models.Idea
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Idea</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Brief)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Brief)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileData)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileData)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FileName)
+        </dt>
+        <dd>
+            <a href="@Url.Content("~/App_Data/Ideas/" + Model.FileData)" download>@Html.DisplayFor(model => model.FileName)</a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Content)
+        </dd>
+        <dd>
+            @if (Model.UserId == null)
+            {
+                <p><strong>Created by:</strong> <br />Anonymous</p>
+            }
+            else
+            {
+                <p><strong>Created by:</strong> <br /> @Html.DisplayFor(model => model.User.UserName)</p>
+            }
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdeaId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

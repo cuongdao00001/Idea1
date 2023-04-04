@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Idea1.Models.Idea>
+
+@{
+    ViewBag.Title = "Idea";
+    var topicId = ViewBag.TopicId;
+}
+
+<h2>List of Idea</h2>
+<table class="table">
+    <tr>
+        <th>
+            Topic Title
+        </th>
+        <th>
+            First Date
+        </th>
+        <th>
+            Last Date
+        </th>
+        <th></th>
+    </tr>
+
+    <tr>
+        <td>
+            @ViewBag.TopicTitle
+        </td>
+        <td>
+            @ViewBag.TopicFirstDate
+        </td>
+        <td>
+            @ViewBag.TopicLastDate
+        </td>
+    </tr>
+</table>
+
+<p class=" text-center">
+    @Html.ActionLink("Create New", "Create", new {id=topicId} ,null)
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Brief)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Views)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Like)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dislike)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var idea in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => idea.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => idea.Brief)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => idea.Views)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => idea.Like)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => idea.Dislike)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = idea.IdeaId }) |
+                <button type="button" class="btn btn-success bi bi-hand-thumbs-up-fill">
+                    Like
+                </button>|
+                <button type="button" class="btn btn-danger bi bi-hand-thumbs-down-fill">
+                    Dislike
+                </button>|
+            </td>
+        </tr>
+    }
+
+</table>
