@@ -53,6 +53,9 @@ namespace Idea1.Controllers
             {
                 return HttpNotFound();
             }
+            string fileName = idea.FileData;
+            idea.FileName = fileName;
+           
             return View(idea);
         }
         // GET: Ideas/Create
@@ -98,9 +101,10 @@ namespace Idea1.Controllers
 
                 if (file != null && file.ContentLength > 0)
                 {
-                    var fileName = Path.GetFileName(file.FileName);
-                    var path = Path.Combine(Server.MapPath("~/App_Data/Ideas"), fileName);
-                    file.SaveAs(path);
+                    string fileName = Path.GetFileName(file.FileName);
+                    string filePath = Path.Combine(Server.MapPath("~/uploads/Files/"), fileName);
+                    file.SaveAs(filePath);
+                    idea.FileData = filePath;
                     idea.FileName = fileName;
                     idea.FileData = fileName; // cập nhật lại thuộc tính FileData với giá trị là tên tệp tin
                 }
@@ -168,6 +172,11 @@ namespace Idea1.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public FileResult Download(string fileName)
+        {
+            var fileVirtualPath = "~/uploads/Files/" + fileName;
+            return File(fileVirtualPath, "application/force-download", fileName);
         }
 
     }

@@ -37,8 +37,12 @@
             @Html.DisplayNameFor(model => model.FileName)
         </dt>
         <dd>
-            <a href="@Url.Content("~/App_Data/Ideas/" + Model.FileData)" download>@Html.DisplayFor(model => model.FileName)</a>
+            @if (!string.IsNullOrEmpty(Model.FileName))
+            {
+                <a href="@Url.Action("Download", new { fileName = Path.GetFileName(Model.FileData) })">@Model.FileName</a>
+            }
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Content)
         </dt>
