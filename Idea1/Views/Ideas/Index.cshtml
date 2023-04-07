@@ -1,8 +1,12 @@
 ﻿@model IEnumerable<Idea1.Models.Idea>
 
 @{
-    ViewBag.Title = "Idea";
+    ViewBag.Title = "Index";
     var topicId = ViewBag.TopicId;
+    var canAddIdea = ViewBag.CanAddIdea ?? false;
+    var lastDate = ViewBag.LastDate;
+    var currentDate = DateTime.Now;
+
 }
 
 <h2>List of Idea</h2>
@@ -33,9 +37,11 @@
     </tr>
 </table>
 
-<p class=" text-center">
-    @Html.ActionLink("Create New", "Create", new {id=topicId} ,null)
-</p>
+@if (lastDate > currentDate || (lastDate == currentDate && lastDate.TimeOfDay > currentDate.TimeOfDay))
+{
+    @Html.ActionLink("Create New", "Create", new { id = topicId }, new { @class = "btn btn-success" })
+}
+
 <table class="table">
     <tr>
         <th>
@@ -82,8 +88,6 @@
                 <button type="button" class="btn btn-danger bi bi-hand-thumbs-down-fill">
                     Dislike
                 </button>|
-            </td>
         </tr>
     }
-
 </table>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Idea1.Models.Topic>
+
+@{
+    ViewBag.Title = "Staff Submission";
+    var currentDate = DateTime.Now;
+}
+
+<h2>Staff Submission</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastDate)
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        var lastDate = item.LastDate;
+
+        <tr style="@(lastDate > currentDate ? "background-color: #7FFF7F;" : lastDate == currentDate && lastDate.TimeOfDay > currentDate.TimeOfDay ? "background-color: #FFFF7F;" : "background-color: #FF7F7F;")">
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastDate)
+            </td>
+            <td>
+                @if (lastDate > currentDate)
+                {
+                    @Html.ActionLink("View Idea", "Index", "Ideas", new { topicId = item.TopicId }, null)
+                }
+                else if (lastDate == currentDate && lastDate.TimeOfDay > currentDate.TimeOfDay)
+                {
+                    @Html.ActionLink("View Idea", "Index", "Ideas", new { topicId = item.TopicId }, null)
+                }
+                else
+                {
+                    @Html.ActionLink("View Idea", "Index", "Ideas", new { topicId = item.TopicId }, null)
+                }
+            </td>
+        </tr>
+    }
+</table>

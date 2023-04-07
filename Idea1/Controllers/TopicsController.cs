@@ -16,9 +16,14 @@ namespace Idea1.Controllers
 
         // GET: Topics
         public ActionResult Index()
-        {
-            return View(db.Topics.ToList());
-        }
+        {         
+            var topics = db.Topics.ToList();
+            return View(topics);
+            }
+        
+
+   
+
 
         // GET: Topics/Details/5
         public ActionResult Details(int? id)
@@ -50,13 +55,30 @@ namespace Idea1.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TopicId,Title,FirstDate,LastDate")] Topic topic)
+        public ActionResult Create([Bind(Include = "TopicId,Title,FirstDate,LastDate,Color")] Topic topic)
         {
             if (ModelState.IsValid)
             {
-                topic.FirstDate = DateTime.Now;
-                topic.LastDate = topic.FirstDate;
-                topic.Ideas = new HashSet<Idea>(); // Thêm dòng này để khởi tạo collection Ideas cho Topic
+                var now = DateTime.Now.TimeOfDay;
+                var firstDate = new DateTimeOffset(topic.FirstDate.Year, topic.FirstDate.Month, topic.FirstDate.Day, now.Hours, now.Minutes, now.Seconds, now.Milliseconds, topic.FirstDate.Offset);
+                var lastDate = new DateTimeOffset(topic.LastDate.Year, topic.LastDate.Month, topic.LastDate.Day, now.Hours, now.Minutes, now.Seconds, now.Milliseconds, topic.LastDate.Offset);
+
+                if (lastDate > DateTime.Now)
+                {
+                    topic.CanAddIdea = true;
+                }
+                else if (lastDate == DateTime.Now)
+                {
+                    topic.CanAddIdea = true;
+                }
+                else
+                {
+                    topic.CanAddIdea = false;
+                }
+
+                topic.FirstDate = firstDate;
+                topic.LastDate = lastDate;
+                topic.Ideas = new HashSet<Idea>();
                 db.Topics.Add(topic);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -64,6 +86,8 @@ namespace Idea1.Controllers
 
             return View(topic);
         }
+
+
 
 
         // GET: Topics/Edit/5
@@ -90,8 +114,16 @@ namespace Idea1.Controllers
         {
             if (ModelState.IsValid)
             {
+                var now = DateTime.Now.TimeOfDay;
+                var firstDate = new DateTimeOffset(topic.FirstDate.Year, topic.FirstDate.Month, topic.FirstDate.Day, now.Hours, now.Minutes, now.Seconds, now.Milliseconds, topic.FirstDate.Offset);
+                var lastDate = new DateTimeOffset(topic.LastDate.Year, topic.LastDate.Month, topic.LastDate.Day, now.Hours, now.Minutes, now.Seconds, now.Milliseconds, topic.LastDate.Offset);
+
+                topic.FirstDate = firstDate;
+                topic.LastDate = lastDate;
+
                 db.Entry(topic).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(topic);
@@ -131,5 +163,6 @@ namespace Idea1.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

@@ -181,6 +181,7 @@ namespace Idea1.Controllers
             var fileVirtualPath = "~/Uploads/" + fileName;
             return File(fileVirtualPath, "application/force-download", fileName);
         }
+      
 
     }
 }
