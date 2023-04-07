@@ -4,8 +4,6 @@
     ViewBag.Title = "Index";
     var topicId = ViewBag.TopicId;
     var canAddIdea = ViewBag.CanAddIdea ?? false;
-    var lastDate = ViewBag.LastDate;
-    var currentDate = DateTime.Now;
 
 }
 
@@ -37,7 +35,7 @@
     </tr>
 </table>
 
-@if (lastDate > currentDate || (lastDate == currentDate && lastDate.TimeOfDay > currentDate.TimeOfDay))
+@if (canAddIdea)
 {
     @Html.ActionLink("Create New", "Create", new { id = topicId }, new { @class = "btn btn-success" })
 }
@@ -88,6 +86,8 @@
                 <button type="button" class="btn btn-danger bi bi-hand-thumbs-down-fill">
                     Dislike
                 </button>|
-        </tr>
+                @Html.ActionLink("ExportExcel", "ExportExcel", new { id = idea.IdeaId })
+                @Html.ActionLink("ExportZip", "ExportZip", new { id = idea.IdeaId })
+</tr>
     }
 </table>
