@@ -35,10 +35,9 @@
     </tr>
 </table>
 
-@if (canAddIdea)
-{
+
     @Html.ActionLink("Create New", "Create", new { id = topicId }, new { @class = "btn btn-success" })
-}
+
 
 <table class="table">
     <tr>
@@ -88,6 +87,7 @@
                 </button>|
                 @Html.ActionLink("ExportExcel", "ExportExcel", new { id = idea.IdeaId })
                 @Html.ActionLink("ExportZip", "ExportZip", new { id = idea.IdeaId })
-</tr>
-    }
-</table>
+
+            </tr>
+          }
+    </table>
